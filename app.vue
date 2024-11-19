@@ -26,7 +26,18 @@
             <NuxtLink to="/contact" class="nav-link">Contact</NuxtLink>
           </li>
           <li>
+            <NuxtLink to="/category" class="nav-link">Category</NuxtLink>
+          </li>
+          <li v-if="!isLoggedIn">
+
+            <NuxtLink to="/register" class="nav-link">Sign Up</NuxtLink>
             <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
+          </li>
+<!--          <li v-else>
+            <span @click="logout" class="nav-link">Logout</span>
+          </li>-->
+          <li v-else>
+            <NuxtLink to="/profile" class="nav-link">Profile</NuxtLink>
           </li>
         </ul>
       </nav>
@@ -47,7 +58,19 @@
 </template>
 
 <script setup>
-// No specific setup required here unless you want to add global logic or data
+import { useAuthStore } from '@/stores/auth'; // Assuming your store is in stores/auth.js
+import { computed } from 'vue';
+
+// Access the authentication store
+const authStore = useAuthStore();
+
+// Check if the profile is logged in
+const isLoggedIn = computed(() => !!authStore.token);
+
+// Logout method
+const logout = () => {
+  authStore.logout();
+};
 </script>
 
 <style scoped>

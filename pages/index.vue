@@ -31,14 +31,14 @@
 import axios from 'axios'
 // import { ref } from 'vue'
 import { ref, onMounted } from 'vue';
-const { $axios } = useNuxtApp()
+const { $axios, $axios2 } = useNuxtApp()
 
 
 const languages = ref([]);
 
 const fetchLanguages = async () => {
   try {
-    const response = await $axios.get('/user')
+    const response = await $axios2.get('/languages')
     languages.value = response.data  // Set the response data
     // console.log('API Response:', response.data)  // Log response to confirm Axios works
   } catch (error) {
