@@ -5,7 +5,10 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/axios.js', // Include your custom Axios plugin
   ],
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@pinia/nuxt',
+  ],
 })
 // nuxt.config.js
 // export default defineNuxtConfig({

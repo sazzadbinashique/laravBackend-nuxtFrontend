@@ -38,7 +38,7 @@ const languages = ref([]);
 
 const fetchLanguages = async () => {
   try {
-    const response = await $axios.get('/languages')
+    const response = await $axios.get('/user')
     languages.value = response.data  // Set the response data
     // console.log('API Response:', response.data)  // Log response to confirm Axios works
   } catch (error) {
