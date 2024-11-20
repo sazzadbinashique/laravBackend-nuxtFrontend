@@ -58,7 +58,7 @@ export const useAuthStore = defineStore('auth', {
             // Optionally navigate to the login page
             navigateTo('/login');
         },
-        async fetchUser() {
+        /*async fetchUser() {
             const nuxtApp = useNuxtApp();
 
             const authTokenCookie = useCookie('auth_token');
@@ -77,6 +77,6 @@ export const useAuthStore = defineStore('auth', {
                     this.logout();
                 }
             }
-        },
+        },*/
     },
 });
