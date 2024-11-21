@@ -29,13 +29,9 @@
             <NuxtLink to="/category" class="nav-link">Category</NuxtLink>
           </li>
           <li v-if="!isLoggedIn">
-
             <NuxtLink to="/register" class="nav-link">Sign Up</NuxtLink>
             <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
           </li>
-<!--          <li v-else>
-            <span @click="logout" class="nav-link">Logout</span>
-          </li>-->
           <li v-else>
             <NuxtLink to="/profile" class="nav-link">Profile</NuxtLink>
           </li>

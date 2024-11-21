@@ -74,10 +74,13 @@
 import { ref, onMounted } from 'vue';
 import { useCategoryStore } from '~/stores/categories';
 import { toast } from 'vue3-toastify';
+import { useRoute, useRouter } from 'vue-router';
 
 const categoryStore = useCategoryStore();
 const categories = ref([]);
 const newCategory = ref({ name: '' });
+const route = useRoute();
+const router = useRouter();
 
 const createCategory = () => {
   if (newCategory.value.name.trim() !== '') {
@@ -94,6 +97,8 @@ const createCategory = () => {
 
 const editCategory = (id) => {
   categoryStore.editCategory(id);
+  // Redirect to the edit page
+  router.push(`/category/edit/${id}`);
 };
 
 const deleteCategory = (id) => {

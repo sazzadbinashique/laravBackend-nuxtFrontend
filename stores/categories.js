@@ -9,6 +9,7 @@ export const useCategoryStore = defineStore('category', {
             next_page_url: null,
             current_page: 1,
         },
+        currentCategory: null,
     }),
 
     actions: {
@@ -46,7 +47,7 @@ export const useCategoryStore = defineStore('category', {
             const nuxtApp = useNuxtApp();
             try {
                 const response = await nuxtApp.$axios.get(`/categories/${id}`);
-                return response.data;
+                this.currentCategory = response.data;
             } catch (error) {
                 console.error('Error fetching category:', error);
             }
@@ -58,10 +59,13 @@ export const useCategoryStore = defineStore('category', {
                 const response = await nuxtApp.$axios.put(`/categories/${id}`, categoryData);
                 const index = this.categories.findIndex(cat => cat.id === id);
                 if (index !== -1) {
-                    this.categories[index] = response.data; // Update the category in the list
+                    this.categories[index] = { ...this.categories[index], ...response.data };
+                } else {
+                    console.warn(`Category with ID ${id} not found in the list.`);
                 }
             } catch (error) {
                 console.error('Error updating category:', error);
+                throw new Error('Failed to update the category. Please try again.');
             }
         },
 
