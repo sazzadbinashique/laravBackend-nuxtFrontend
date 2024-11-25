@@ -26,6 +26,9 @@
             <NuxtLink to="/contact" class="nav-link">Contact</NuxtLink>
           </li>
           <li>
+            <NuxtLink to="/post" class="nav-link">Post</NuxtLink>
+          </li>
+          <li>
             <NuxtLink to="/category" class="nav-link">Category</NuxtLink>
           </li>
           <li v-if="!isLoggedIn">

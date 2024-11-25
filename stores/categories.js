@@ -18,6 +18,7 @@ export const useCategoryStore = defineStore('category', {
             try {
                 const url = pageUrl || '/categories';
                 const response = await nuxtApp.$axios.get(url);
+                console.log('response', response);
                 this.categories = response.data.data; // Assuming categories are in 'data' array
                 this.pagination = {
                     prev_page_url: response.data.prev_page_url,
@@ -63,8 +64,8 @@ export const useCategoryStore = defineStore('category', {
                 } else {
                     console.warn(`Category with ID ${id} not found in the list.`);
                 }
+                nuxtApp.$toast.success('Category Updated successfully!');
             } catch (error) {
-                console.error('Error updating category:', error);
                 throw new Error('Failed to update the category. Please try again.');
             }
         },
@@ -74,6 +75,7 @@ export const useCategoryStore = defineStore('category', {
             try {
                 await nuxtApp.$axios.delete(`/categories/${id}`);
                 this.categories = this.categories.filter(cat => cat.id !== id); // Remove the deleted category
+                nuxtApp.$toast.success('Category deleted successfully!');
             } catch (error) {
                 console.error('Error deleting category:', error);
             }

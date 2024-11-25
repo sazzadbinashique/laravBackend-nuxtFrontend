@@ -42,7 +42,7 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/auth';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 // Use the auth store
@@ -69,6 +69,11 @@ const editProfile = () => {
 const logout = () => {
   authStore.logout();
 };
+
+// Load user profile
+onMounted(async () => {
+  await authStore.fetchUser(); // Call the fetchUser method from the store
+});
 </script>
 
 <style scoped>

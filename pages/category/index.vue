@@ -2,9 +2,8 @@
 <template>
   <div class="container mx-auto p-6">
     <h1 class="text-3xl font-semibold mb-6">Categories</h1>
-
     <!-- Create Category Form -->
-    <div class="bg-white p-6 rounded-md mb-8">
+    <div class="bg-cyan-100 p-6 rounded-md mb-8">
       <h2 class="text-xl font-medium mb-4">Create Category</h2>
       <form @submit.prevent="createCategory" class="space-y-4">
         <div>
@@ -30,6 +29,7 @@
             <th class="border border-gray-300 py-3 px-6 text-left">SL</th>
             <th class="border border-gray-300 py-3 px-6 text-left">Name</th>
             <th class="border border-gray-300 py-3 px-6 text-left">Created At</th>
+            <th class="border border-gray-300 py-3 px-6 text-left">Updated At</th>
             <th class="border border-gray-300 py-3 px-6 text-center">Actions</th>
           </tr>
           </thead>
@@ -37,7 +37,8 @@
           <tr v-for="(category, index) in categoryStore.categories" :key="category.id" class="border-b">
             <td class="border border-gray-300 py-3 px-6">{{ index + 1 }}</td>
             <td class="border border-gray-300 py-3 px-6">{{ category.name }}</td>
-            <td class="border border-gray-300 py-3 px-6">{{ category.created_at }}</td>
+            <td class="border border-gray-300 py-3 px-6">{{ formatDate(category.created_at) }}</td>
+            <td class="border border-gray-300 py-3 px-6">{{ formatDate(category.updated_at) }}</td>
             <td class="border border-gray-300 py-3 px-6 text-center">
               <button @click="editCategory(category.id)" class="border border-amber-100 py-2 px-4 bg-green-300 rounded-md text-blue-600 hover:underline">Edit</button>
               <button @click="deleteCategory(category.id)" class="ml-2 border border-amber-100  py-2 px-4 bg-red-300 rounded-md text-red-600 hover:underline">Delete</button>
@@ -103,6 +104,7 @@ const editCategory = (id) => {
 
 const deleteCategory = (id) => {
   categoryStore.deleteCategory(id);
+  toast.success('Category deleted successfully!');
 };
 
 
@@ -110,6 +112,11 @@ const deleteCategory = (id) => {
 const fetchCategories = (url) => {
   console.log('Fetching categories from URL:', url); // Debug log
   categoryStore.fetchCategories(url);
+};
+// format date all categories created_at field
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString();
+
 };
 
 onMounted(() => {

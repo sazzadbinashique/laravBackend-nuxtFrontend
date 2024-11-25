@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useNuxtApp } from '#app';
 import { useCookie } from '#imports';
+import { toast } from 'vue3-toastify';
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null,
@@ -24,11 +25,17 @@ export const useAuthStore = defineStore('auth', {
                 });
                 this.token = data.token;
                 this.user = data.user;
-                const authTokenCookie = useCookie('auth_token');
+                const authTokenCookie = useCookie('auth_token',{
+                    httpOnly: true,    // Prevent client-side access to cookies
+                    sameSite: 'Strict', // Restrict cross-site requests
+                    secure: process.env.NODE_ENV === 'production', // Use `Secure` in production
+                });
                 authTokenCookie.value = data.token;
                 console.log('register', data);
+                toast.success('Registered successfully');
                 navigateTo('/');
             } catch (error) {
+                toast.error('Registration failed');
                 throw new Error(error.response?.data?.message || 'Registration failed');
             }
         },
@@ -42,7 +49,7 @@ export const useAuthStore = defineStore('auth', {
                 this.user = data.user;
                 const authTokenCookie = useCookie('auth_token');
                 authTokenCookie.value = data.token;
-
+                toast.success('Logged in successfully');
                 navigateTo('/');
             } catch (error) {
                 this.errorMessage =
@@ -55,28 +62,21 @@ export const useAuthStore = defineStore('auth', {
             useCookie('auth_token').value = null;
             this.user = null;
             this.token = null;
+            toast.success('Logged out successfully');
             // Optionally navigate to the login page
             navigateTo('/login');
         },
-        /*async fetchUser() {
+        async fetchUser() {
             const nuxtApp = useNuxtApp();
-
-            const authTokenCookie = useCookie('auth_token');
-            this.token = authTokenCookie.value;
-
-            if (this.token) {
-                try {
-                    // Set the token for Axios requests
-                    nuxtApp.$axios.setToken(this.token, 'Bearer');
-
-                    // Fetch the profile data
-                    const { data } = await nuxtApp.$axios.get('/user');
-                    this.user = data;
-                } catch (error) {
-                    console.error('Fetch User Error:', error);
-                    this.logout();
-                }
+            try {
+                // Fetch the profile data
+                const { data } = await nuxtApp.$axios.get('/user');
+                this.user = data;
+            } catch (error) {
+                toast.error('Failed to fetch user data');
+                console.error('Fetch User Error:', error);
+                //this.logout();
             }
-        },*/
+        },
     },
 });

@@ -114,8 +114,8 @@ onMounted(async () => {
 const updateCategory = async () => {
   try {
     await categoryStore.updateCategory(categoryId, category.value);
-    toast.success('Category updated successfully!');
     router.push('/category'); // Redirect to category list
+    toast.success('Category updated successfully!');
   } catch (error) {
     toast.error('Failed to update category. Please try again.');
     console.error('Error:', error);
