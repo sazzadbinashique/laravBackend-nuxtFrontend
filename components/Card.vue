@@ -1,15 +1,15 @@
 <template>
-  <div class="p-2 bg-white rounded-xl">
+  <div class="bg-white rounded-xl">
     <a :href="link" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
       <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
-      <div class="sm:flex sm:justify-between sm:gap-4">
+      <div class="sm:flex sm:justify-between sm:gap-3">
         <div>
           <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ title }}</h3>
           <p class="mt-1 text-xs font-medium text-gray-600">By {{ author }}</p>
         </div>
 
         <div v-if="image" class="hidden sm:block sm:shrink-0">
-          <img :alt="title" :src="image" class="size-16 rounded-lg object-cover shadow-sm" />
+          <img :alt="title" :src="image" class="size-16 rounded-md object-cover shadow-sm" />
         </div>
       </div>
 

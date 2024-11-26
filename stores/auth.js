@@ -14,25 +14,28 @@ export const useAuthStore = defineStore('auth', {
             const authTokenCookie = useCookie('auth_token');
             this.token = authTokenCookie.value || null; // Load token from cookie
         },
-        async register(name, email, password, confirm_password) {
+        async register(name, email, mobile, role_id, password, confirm_password,address) {
             const nuxtApp = useNuxtApp();
             try {
                 const { data } = await nuxtApp.$axios.post('/register', {
                     name,
                     email,
+                    mobile,
+                    role_id,
                     password,
                     confirm_password,
+                    address,
                 });
                 this.token = data.token;
                 this.user = data.user;
                 const authTokenCookie = useCookie('auth_token',{
                     httpOnly: true,    // Prevent client-side access to cookies
                     sameSite: 'Strict', // Restrict cross-site requests
-                    secure: process.env.NODE_ENV === 'production', // Use `Secure` in production
+                    //secure: process.env.NODE_ENV === 'production', // Use `Secure` in production
                 });
                 authTokenCookie.value = data.token;
                 console.log('register', data);
-                toast.success('Registered successfully');
+                toast.success('User has been created successfully');
                 navigateTo('/');
             } catch (error) {
                 toast.error('Registration failed');

@@ -12,7 +12,7 @@
         v-for="(post, index) in posts"
         :key="index"
         :title="post.title"
-        :author="post.slug"
+        :author="post.author.name"
         :description="post.description"
         :image="getPostImageUrl(post.photo)"
         :publishedDate="formatDate(post.created_at)"

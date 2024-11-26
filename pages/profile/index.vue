@@ -11,6 +11,7 @@
         <!-- User Name -->
         <h1 class="text-2xl font-bold text-gray-800">{{ user.name || 'Guest User' }}</h1>
         <p class="text-gray-600">{{ user.email }}</p>
+        <p class="text-gray-600">{{ user.mobile }}</p>
       </div>
 
       <hr class="my-6 border-gray-300" />
@@ -19,11 +20,17 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <span class="text-gray-700 font-medium">Role:</span>
-          <span class="text-gray-900">{{ user.role || 'N/A' }}</span>
+          <span class="text-gray-900">{{ user.role.name|| 'N/A' }}</span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-700 font-medium">Joined:</span>
           <span class="text-gray-900">{{ formattedJoinDate }}</span>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <div class="flex justify-between items-center">
+          <span class="text-gray-700 font-medium">Address:</span>
+          <span class="text-gray-900">{{ user.address || 'N/A' }}</span>
         </div>
       </div>
 
