@@ -1,6 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gray-100 py-8 flex justify-center">
-    <div class="bg-white shadow-lg rounded-lg w-full max-w-2xl p-6">
+
+  <div class="py-2">
+    <Breadcrumb :crumbs="breadcrumbs" />
+  </div>
+  <div class="min-h-screen bg-cyan-50 py-2 flex justify-center">
+    <div class="bg-white shadow-md rounded-md w-3/4 p-6">
       <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Create a New Post</h1>
 
       <form @submit.prevent="handleSubmit">
@@ -59,10 +63,10 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="mt-6">
+        <div class="flex mt-6 justify-end">
           <button
               type="submit"
-              class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition"
+              class="px-4 bg-blue-500 text-white py-2  rounded-md hover:bg-blue-600 transition justify-end"
           >
             Submit Post
           </button>
@@ -78,6 +82,7 @@ import {usePostStore} from '@/stores/posts';
 import {useCategoryStore} from '@/stores/categories';
 import {toast} from 'vue3-toastify';
 import { useRoute, useRouter } from 'vue-router';
+import Breadcrumb from "~/components/Breadcrumb.vue";
 
 const postStore = usePostStore();
 const categoryStore = useCategoryStore();
@@ -90,10 +95,12 @@ const post = ref({
   description: '',
   photo: null,
 });
-
 const errors = ref({});
-
 const categories = ref([]);
+const breadcrumbs = [
+  { label: 'Home', link: '/' },
+  { label: 'Posts', link: '/post' },
+];
 
 onMounted(async () => {
   await categoryStore.fetchCategories();

@@ -1,55 +1,57 @@
 <!-- pages/index.vue -->
 <template>
-  <div class=" w-full text-center">
-    <h1 class="text-3xl font-bold bg-green-100 p-6 rounded-md">Language of Bangladesh</h1>
-<!--     <button @click="fetchLanguages" class="mt-4 p-2 bg-blue-500 text-white rounded">
-      Fetch Languages
-    </button>-->
-
-    <div v-if="languages.length" class="bg-cyan-50 shadow-md rounded-md">
-      <table class="min-w-full border border-gray-300">
-        <thead>
-        <tr class="bg-gray-100">
-          <th class="border border-gray-300 px-4 py-2">SL</th>
-          <th class="border border-gray-300 px-4 py-2 text-start">English Name</th>
-          <th class="border border-gray-300 px-4 py-2 text-start">Bangla Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(lang, index) in languages" :key="index" class="hover:bg-blue-100">
-          <td class="border border-gray-300 px-4 py-2 ">{{ lang.id }}</td>
-          <td class="border border-gray-300 px-4 py-2 text-start">{{ lang.en_name }}</td>
-          <td class="border border-gray-300 px-4 py-2 text-start">{{ lang.name }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="w-full text-start">
+    <h1 class="text-3xl font-bold bg-green-100 p-6 rounded-md">Latest Posts</h1>
+  </div>
+  <!-- Loading State -->
+  <div v-if="isLoading" class="flex justify-center py-8">
+    <p>Loading posts...</p>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-6">
+    <Card
+        v-for="(post, index) in posts"
+        :key="index"
+        :title="post.title"
+        :author="post.slug"
+        :description="post.description"
+        :image="getPostImageUrl(post.photo)"
+        :publishedDate="formatDate(post.created_at)"
+        :category="post.category.name"
+        :link="post.link"
+    />
   </div>
 </template>
 
 <script setup>
-import axios from 'axios'
-// import { ref } from 'vue'
 import { ref, onMounted } from 'vue';
-const { $axios } = useNuxtApp()
-
+import Card from '~/components/Card.vue'; // Import the Card component
+const { $axios } = useNuxtApp();
 
 const languages = ref([]);
+const posts = ref([]); // Data for posts
+const isLoading = ref(false); // Loading state
 
-const fetchLanguages = async () => {
+const fetchPosts = async () => {
   try {
-    const response = await $axios.get('/languages')
-    languages.value = response.data  // Set the response data
-    // console.log('API Response:', response.data)  // Log response to confirm Axios works
+    isLoading.value = true;
+    const response = await $axios.get('/posts');
+    posts.value = response.data.data;
+    isLoading.value = false;
+    console.log('posts', posts);
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Error fetching posts:', error);
   }
-}
+};
 
+const formatDate = (date) => {
+  return new Date(date).toLocaleDateString();
+};
 
+// Generate full URL for photo
+const getPostImageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/storage/${photo}`;
 
 onMounted(() => {
-  fetchLanguages();
-})
+  fetchPosts();
+});
 
 </script>

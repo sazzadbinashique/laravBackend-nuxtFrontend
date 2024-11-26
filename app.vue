@@ -10,27 +10,13 @@
           <li>
             <NuxtLink to="/" class="nav-link">Home</NuxtLink>
           </li>
-          <li>
-            <NuxtLink to="/chart" class="nav-link">LanguageChart</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/emi" class="nav-link">EMIWithGrace</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/calculator" class="nav-link">EMICalculator</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/about" class="nav-link">About</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/contact" class="nav-link">Contact</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/post" class="nav-link">Post</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/category" class="nav-link">Category</NuxtLink>
-          </li>
+          <li><NuxtLink to="/post" class="nav-link">Posts</NuxtLink></li>
+          <li><NuxtLink to="/category" class="nav-link">Category</NuxtLink></li>
+<!--          <li><NuxtLink to="/chart" class="nav-link">LanguageChart</NuxtLink></li>
+          <li><NuxtLink to="/calculator" class="nav-link">EMICalculator</NuxtLink></li>-->
+          <li><NuxtLink to="/emi" class="nav-link">EMIWithGrace</NuxtLink></li>
+          <li><NuxtLink to="/about" class="nav-link">About</NuxtLink></li>
+<!--          <li><NuxtLink to="/contact" class="nav-link">Contact</NuxtLink></li>-->
           <li v-if="!isLoggedIn">
             <NuxtLink to="/register" class="nav-link">Sign Up</NuxtLink>
             <NuxtLink to="/login" class="nav-link">Login</NuxtLink>

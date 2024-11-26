@@ -56,19 +56,28 @@ export const useCategoryStore = defineStore('category', {
 
         async updateCategory(id, categoryData) {
             const nuxtApp = useNuxtApp();
+            if (!categoryData || Object.keys(categoryData).length === 0) {
+                nuxtApp.$toast.error('Category data is invalid.');
+                return;
+            }
+
             try {
                 const response = await nuxtApp.$axios.put(`/categories/${id}`, categoryData);
+                // Debug the response structure
+                console.log('Response:', response);
                 const index = this.categories.findIndex(cat => cat.id === id);
                 if (index !== -1) {
                     this.categories[index] = { ...this.categories[index], ...response.data };
                 } else {
                     console.warn(`Category with ID ${id} not found in the list.`);
                 }
-                nuxtApp.$toast.success('Category Updated successfully!');
+
             } catch (error) {
-                throw new Error('Failed to update the category. Please try again.');
+                console.error('Update failed:', error.response || error);
+                throw new Error(error.message || 'Failed to update the category.');
             }
         },
+
 
         async deleteCategory(id) {
             const nuxtApp = useNuxtApp();
