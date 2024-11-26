@@ -20,7 +20,7 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center">
           <span class="text-gray-700 font-medium">Role:</span>
-          <span class="text-gray-900">{{ user.role.name|| 'N/A' }}</span>
+          <span class="text-gray-900">{{ user.role?.name|| 'N/A' }}</span>
         </div>
         <div class="flex justify-between items-center">
           <span class="text-gray-700 font-medium">Joined:</span>
@@ -54,8 +54,10 @@ import { useRouter } from 'vue-router';
 
 // Use the auth store
 const authStore = useAuthStore();
-const user = computed(() => authStore.user || {});
-console.log('user', user);
+// const user = computed(() => authStore.user || {});
+const user = computed(() => authStore.user || { role: {} });
+
+console.log('user not computed', user);
 const router = useRouter();
 
 // Default avatar

@@ -31,7 +31,7 @@ export const useAuthStore = defineStore('auth', {
                 const authTokenCookie = useCookie('auth_token',{
                     httpOnly: true,    // Prevent client-side access to cookies
                     sameSite: 'Strict', // Restrict cross-site requests
-                    //secure: process.env.NODE_ENV === 'production', // Use `Secure` in production
+                    secure: process.env.NODE_ENV === 'production', // Use `Secure` in production
                 });
                 authTokenCookie.value = data.token;
                 console.log('register', data);
@@ -75,6 +75,7 @@ export const useAuthStore = defineStore('auth', {
                 // Fetch the profile data
                 const { data } = await nuxtApp.$axios.get('/user');
                 this.user = data;
+                console.log('fetchUser', this.user);
             } catch (error) {
                 toast.error('Failed to fetch user data');
                 console.error('Fetch User Error:', error);
