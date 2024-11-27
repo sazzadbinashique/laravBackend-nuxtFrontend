@@ -43,7 +43,7 @@
           <td class="border border-gray-300 py-3 px-6">{{ post.description }}</td>
           <td class="border border-gray-300 py-3 px-6">{{ formatDate(post.created_at) }}</td>
           <td class="border border-gray-300 py-3 px-6 text-center">
-            <button @click="editPost(post)" class="border border-amber-100 py-2 px-4 bg-green-300 rounded-md text-blue-600 hover:underline">Edit</button>
+            <button @click="editPost(post.id)" class="border border-amber-100 py-2 px-4 bg-green-300 rounded-md text-blue-600 hover:underline">Edit</button>
             <button @click="deletePost(post.id)" class="ml-2 border border-amber-100 py-2 px-4 bg-red-300 rounded-md text-red-600 hover:underline">Delete</button>
           </td>
         </tr>
@@ -79,6 +79,7 @@
 import { ref, onMounted } from 'vue';
 import { usePostStore } from '~/stores/posts';
 import Breadcrumb from '@/components/Breadcrumb.vue';
+import {useRouter} from "#vue-router";
 
 // Store and reactive variables
 const postStore = usePostStore();
@@ -88,7 +89,7 @@ const breadcrumbs = [
   { label: 'Home', link: '/' },
   { label: 'Posts', link: '/post' },
 ];
-
+const router = useRouter();
 // Fetch Posts
 const fetchPosts = async (url = null) => {
   isLoading.value = true;
@@ -111,7 +112,6 @@ const deletePost = (id) => {
 
 const editPost = (id) => {
   postStore.editPost(id);
-  // Redirect to the edit page
   router.push(`/post/edit/${id}`);
 };
 

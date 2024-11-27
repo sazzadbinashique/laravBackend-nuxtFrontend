@@ -1,4 +1,3 @@
-// stores/posts.js
 import { defineStore } from 'pinia';
 import { useNuxtApp } from '#app';
 import { toast } from 'vue3-toastify';
@@ -10,6 +9,7 @@ export const usePostStore = defineStore('post', {
             next_page_url: null,
             current_page: 1,
         },
+        currentPost: null,
     }),
 
     actions: {
@@ -43,13 +43,26 @@ export const usePostStore = defineStore('post', {
             }
         },
 
-        async updatePost(id, postData) {
+        async editPost(id) {
+            const nuxtApp = useNuxtApp();
             try {
-                const response = await useNuxtApp().$axios.put(`/posts/${id}`, postData);
-                const index = this.posts.findIndex(post => post.id === id);
-                if (index !== -1) {
-                    this.posts[index] = response.data;
-                }
+                const response = await nuxtApp.$axios.get(`/posts/${id}`);
+                this.currentPost = response.data;
+            } catch (error) {
+                console.error('Error fetching post:', error);
+            }
+        },
+
+        async updatePost(id, postData) {
+            const nuxtApp = useNuxtApp();
+            try {
+                console.log('Update Response:', postData); // Log the response
+                const response = await nuxtApp.$axios.put(`/posts/${id}`, postData,{
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+              console.log('Update Response:', response); // Log the response
             } catch (error) {
                 console.error('Error updating post:', error);
             }

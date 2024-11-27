@@ -97,7 +97,6 @@ const breadcrumbs = [
   { label: 'Home', link: '/' },
   { label: 'Categories', link: '/category' },
 ];
-const route = useRoute();
 const router = useRouter();
 
 const createCategory = () => {
@@ -115,7 +114,6 @@ const createCategory = () => {
 
 const editCategory = (id) => {
   categoryStore.editCategory(id);
-  // Redirect to the edit page
   router.push(`/category/edit/${id}`);
 };
 
