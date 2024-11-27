@@ -39,10 +39,15 @@
           class="w-full mt-2 p-2 border rounded focus:ring focus:ring-blue-300"
       />
       <p v-if="errors.photo" class="text-red-500 text-sm">{{ errors.photo }}</p>
-      <!-- Show photo preview if available -->
-      <div v-if="post.photoUrl" class="mt-2">
+      <!-- If the post is new (create) or the file is uploaded -->
+      <div v-if="post.photo" class="mt-2">
+        <img :src="getPostImageUrl(post.photo)" alt="Post Photo" class="w-32 h-32 object-cover rounded-md" />
+      </div>
+      <!-- If it's an edit and post already has a photoUrl -->
+      <div v-else-if="post.photoUrl" class="mt-2">
         <img :src="getPostImageUrl(post.photoUrl)" alt="Post Photo" class="w-32 h-32 object-cover rounded-md" />
       </div>
+
     </div>
 
     <!-- Description -->
@@ -121,7 +126,14 @@ onMounted(() => {
     categories.value = categoryStore.categories;
   });
 });
-const getPostImageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/storage/${photo}`;
+const getPostImageUrl = (photo) => {
+  // If the photo is a file object (i.e., during file upload), use the URL.createObjectURL for the preview
+  if (photo instanceof File) {
+    return URL.createObjectURL(photo); // Temporary URL for the uploaded file
+  } else {
+    return `${import.meta.env.VITE_BASE_URL}/storage/${photo}`; // Existing photo URL (for edit)
+  }
+};
 const handleSubmit = () => {
   if (!validateForm()) return;
   const formData = new FormData();
