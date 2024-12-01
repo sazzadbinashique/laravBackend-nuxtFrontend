@@ -4,12 +4,6 @@
     <!-- Breadcrumb -->
     <Breadcrumb :crumbs="breadcrumbs" />
     <!-- Header Section -->
-    <div class="flex justify-between py-2">
-<!--      <h1 class="text-3xl font-semibold">Categories</h1>-->
-<!--      <router-link to="/category/create" class="bg-blue-500 text-white px-4 py-1.5 rounded mb-4 text-center">
-        Add New Category
-      </router-link>-->
-    </div>
     <!-- Create Category Form -->
     <div class="bg-cyan-100 p-6 rounded-md mb-4">
       <h2 class="text-xl font-medium mb-4">Create Category</h2>

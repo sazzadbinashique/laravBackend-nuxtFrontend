@@ -43,7 +43,7 @@ const route = useRoute();
 const router = useRouter();
 
 // Category state for the form (copied to avoid modifying the original object directly)
-const category = ref({});
+const category =  ref({});
 
 // Fetch the category by ID when the page loads
 const categoryId = route.params.id;
@@ -61,7 +61,7 @@ const updateCategory = async () => {
   try {
     await categoryStore.updateCategory(categoryId, category.value);
     toast.success('Category has been updated successfully!');
-    router.push('/category');  // Redirect to category list
+    // router.push('/category');  // Redirect to category list
   } catch (error) {
     toast.error('Failed to update category. Please try again.');
   }

@@ -9,7 +9,7 @@ export const usePostStore = defineStore('post', {
             next_page_url: null,
             current_page: 1,
         },
-        currentPost: null,
+        currentPost: {},
     }),
 
     actions: {
@@ -55,16 +55,29 @@ export const usePostStore = defineStore('post', {
 
         async updatePost(id, postData) {
             const nuxtApp = useNuxtApp();
+            if (!postData || Object.keys(postData).length === 0) {
+                nuxtApp.$toast.error('postData data is invalid.');
+                return;
+            }
+
             try {
-                console.log('Update Response:', postData); // Log the response
                 const response = await nuxtApp.$axios.put(`/posts/${id}`, postData,{
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-              console.log('Update Response:', response); // Log the response
+                // Debug the response structure
+                console.log('Response:', response);
+                const index = this.posts.findIndex(cat => cat.id === id);
+                if (index !== -1) {
+                    this.posts[index] = { ...this.posts[index], ...response.data };
+                } else {
+                    console.warn(`posts with ID ${id} not found in the list.`);
+                }
+
             } catch (error) {
-                console.error('Error updating post:', error);
+                console.error('Update failed:', error.response || error);
+                throw new Error(error.message || 'Failed to update the category.');
             }
         },
 

@@ -210,10 +210,7 @@ onMounted(async () => {
 // Handle form submission
 const handleSubmit = async (formData) => {
   try {
-    // Call the store to create the post
-    console.log('Form Data:', formData); // Check if formData has the correct values
     await postStore.createPost(formData);
-    // Redirect after successful creation
     toast.success('Post created successfully!');
     router.push('/post');
   } catch (error) {

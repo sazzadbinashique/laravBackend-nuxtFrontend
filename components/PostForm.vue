@@ -100,9 +100,13 @@ const post = ref({
   photoUrl: props.initialData.photo || null, // Assuming the photo URL is available
 });
 
-const categoryStore = useCategoryStore();
 const errors = ref({});
+const categoryStore = useCategoryStore();
 
+onMounted(() => {
+  categoryStore.fetchCategories();
+  categories.value = categoryStore.categories;
+});
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
   post.value.photo = file;
@@ -121,11 +125,7 @@ watch(() => props.initialData, (newData) => {
   post.value = {...newData, photoUrl: newData.photo || null};
 });
 
-onMounted(() => {
-  categoryStore.fetchCategories().then(() => {
-    categories.value = categoryStore.categories;
-  });
-});
+
 const getPostImageUrl = (photo) => {
   // If the photo is a file object (i.e., during file upload), use the URL.createObjectURL for the preview
   if (photo instanceof File) {
@@ -141,6 +141,8 @@ const handleSubmit = () => {
   formData.append('category_id', post.value.category_id);
   formData.append('description', post.value.description);
   if (post.value.photo) formData.append('photo', post.value.photo);
+
+  console.log('Form data being emitted:', formData);
 
   emit('submit', formData);
 };

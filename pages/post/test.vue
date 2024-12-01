@@ -35,18 +35,6 @@
           </select>
         </div>
 
-
-
-        <div class="mb-4">
-          <label for="photo" class="block text-sm font-medium text-gray-700">Photo</label>
-          <input
-              type="file"
-              id="photo"
-              @change="handleFileChange"
-              class="w-full mt-2 p-2 border rounded focus:ring focus:ring-blue-300"
-          />
-        </div>
-
         <div class="mb-4">
           <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
           <textarea
@@ -56,6 +44,16 @@
               rows="4"
               required
           ></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="photo" class="block text-sm font-medium text-gray-700">Photo</label>
+          <input
+              type="file"
+              id="photo"
+              @change="handleFileChange"
+              class="mt-1 block w-full"
+          />
         </div>
 
         <div class="flex justify-end">
@@ -75,12 +73,12 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from 'vue';
-import {usePostStore} from '@/stores/posts';
-import {useCategoryStore} from '@/stores/categories';  // Assuming you have a category store
-import {useRouter, useRoute} from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { usePostStore } from '@/stores/posts';
+import { useCategoryStore } from '@/stores/categories';  // Assuming you have a category store
+import { useRouter, useRoute } from 'vue-router';
 import Breadcrumb from '~/components/Breadcrumb.vue';
-import {toast} from 'vue3-toastify';
+import { toast } from 'vue3-toastify';
 
 const currentPost = ref({});
 const categories = ref([]); // This will hold your categories
@@ -90,15 +88,15 @@ const router = useRouter();
 const route = useRoute();
 const postId = route.params.id;
 const breadcrumbs = [
-  {label: 'Home', link: '/'},
-  {label: 'Posts', link: '/post'},
-  {label: 'Edit Post', link: `/post/edit/${postId}`},
+  { label: 'Home', link: '/' },
+  { label: 'Posts', link: '/post' },
+  { label: 'Edit Post', link: `/post/edit/${postId}` },
 ];
 
 const post = ref({});
 onMounted(async () => {
   postStore.editPost(postId).then(() => {
-    post.value = {...postStore.currentPost}; // Re-assign currentPost after fetching data
+    post.value = { ...postStore.currentPost }; // Re-assign currentPost after fetching data
   });
   // Fetch categories when the component mounts
   categoryStore.fetchCategories().then(() => {
