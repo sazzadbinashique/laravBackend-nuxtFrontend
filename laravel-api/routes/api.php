@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         $user = User::with('role')->find(auth()->id());
+        $user->avatar = $user->avatar ? asset('storage/' . $user->avatar) : null;
         return response()->json($user);
     });
     Route::apiResource('categories', CategoryController::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,8 +12,29 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts= Post::with('category','author')->orderBy('id', 'desc')->paginate(10);
-        return response()->json($posts);
+        try {
+            $posts = Post::with('category', 'author')->orderBy('id', 'desc')->paginate(12);//->onEachSide(1);
+//            return response()->json($posts);
+
+            return response()->json([
+                'data' => PostResource::collection($posts), // Collection of posts
+                'pagination' => [
+                    'current_page' => $posts->currentPage(),
+                    'total_pages' => $posts->lastPage(),
+                    'per_page' => $posts->perPage(),
+                    'total' => $posts->total(),
+                    'next_page_url' => $posts->nextPageUrl(),
+                    'prev_page_url' => $posts->previousPageUrl(),
+                ],
+                'success' => 200,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'An error occurred while fetching the posts.',
+                'message' => $e->getMessage(),
+                'success' => 500,
+            ]);
+        }
     }
 
     public function store(Request $request)
