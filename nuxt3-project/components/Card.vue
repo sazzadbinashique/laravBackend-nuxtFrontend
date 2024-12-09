@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-cyan-50 rounded-xl">
+  <div class="bg-cyan-50 rounded-xl" @click="$emit('click')">
     <a :href="link" class="relative block overflow-hidden rounded-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
       <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
       <div class="sm:flex sm:justify-between sm:gap-3">
@@ -14,7 +14,7 @@
       </div>
 
       <div class="mt-4">
-        <p class="text-sm text-gray-500">{{ description }}</p>
+        <p class="text-sm text-gray-500">{{ description  }}</p>
       </div>
 
       <dl class="mt-6 flex gap-4 sm:gap-6">
@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+
 defineProps({
   title: { type: String, required: true },
   author: { type: String, required: true },

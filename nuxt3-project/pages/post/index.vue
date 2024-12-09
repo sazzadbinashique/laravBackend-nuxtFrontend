@@ -38,7 +38,7 @@
           <td class="border border-gray-300 py-3 px-6">{{ post.title }}</td>
           <td class="border border-gray-300 py-3 px-6">{{ post.category.name }}</td>
           <td class="border border-gray-300 py-3 px-6">
-            <img :src="getPostImageUrl(post.photo)" alt="Post Photo" class="h-16 w-16 object-cover rounded" />
+            <img :src="post.photo" alt="Post Photo" class="h-16 w-16 object-cover rounded" />
           </td>
           <td class="border border-gray-300 py-3 px-6">{{ post.description }}</td>
           <td class="border border-gray-300 py-3 px-6">{{ formatDate(post.created_at) }}</td>
@@ -100,7 +100,7 @@ const fetchPosts = async (url = null) => {
 
 // Utility Functions
 const formatDate = (date) => new Date(date).toLocaleDateString();
-const getPostImageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/storage/${photo}`;
+// const getPostImageUrl = (photo) => `${import.meta.env.VITE_BASE_URL}/storage/${photo}`;
 
 // Actions
 const deletePost = (id) => {

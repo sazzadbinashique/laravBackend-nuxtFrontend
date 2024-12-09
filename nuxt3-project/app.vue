@@ -4,25 +4,32 @@
     <header class="bg-blue-600 text-white py-4">
       <nav class="container mx-auto flex justify-between items-center">
         <h1 class="text-2xl font-bold">
-          <NuxtLink to="/" class="text-white hover:text-gray-200">Nuxt App</NuxtLink>
+          <NuxtLink to="/" class="text-white hover:text-gray-200">{{$t('Nuxt App')}}</NuxtLink>
         </h1>
         <ul class="flex space-x-4">
           <li>
-            <NuxtLink to="/" class="nav-link">Home</NuxtLink>
+<!--            <NuxtLink to="/" class="nav-link">Home</NuxtLink>-->
+            <NuxtLink to="/" class="nav-link">{{ $t('Home') }}</NuxtLink>
           </li>
-          <li><NuxtLink to="/post" class="nav-link">Posts</NuxtLink></li>
-          <li><NuxtLink to="/category" class="nav-link">Category</NuxtLink></li>
+          <li><NuxtLink to="/post" class="nav-link">{{$t('Posts')}}</NuxtLink></li>
+          <li><NuxtLink to="/category" class="nav-link">{{$t('Category')}}</NuxtLink></li>
 <!--          <li><NuxtLink to="/chart" class="nav-link">LanguageChart</NuxtLink></li>
           <li><NuxtLink to="/calculator" class="nav-link">EMICalculator</NuxtLink></li>-->
-          <li><NuxtLink to="/emi" class="nav-link">EMIWithGrace</NuxtLink></li>
-          <li><NuxtLink to="/about" class="nav-link">About</NuxtLink></li>
+          <li><NuxtLink to="/emi" class="nav-link">{{$t('EMIWithGrace')}}</NuxtLink></li>
+          <li><NuxtLink to="/about" class="nav-link">{{$t('About')}}</NuxtLink></li>
 <!--          <li><NuxtLink to="/contact" class="nav-link">Contact</NuxtLink></li>-->
           <li v-if="!isLoggedIn">
             <NuxtLink to="/register" class="nav-link">Sign Up</NuxtLink>
             <NuxtLink to="/login" class="nav-link">Login</NuxtLink>
           </li>
           <li v-else>
-            <NuxtLink to="/profile" class="nav-link">Profile</NuxtLink>
+            <NuxtLink to="/profile" class="nav-link">{{$t('Profile')}}</NuxtLink>
+          </li>
+          <li>
+            <select v-model="locale" @change="changeLocale" class="text-blue-600 rounded px-4 py-2">
+              <option value="en">English</option>
+              <option value="bn">বাংলা</option>
+            </select>
           </li>
         </ul>
       </nav>
@@ -43,10 +50,10 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/auth'; // Assuming your store is in stores/auth.js
 import { computed } from 'vue';
-
-// Access the authentication store
+import { useAuthStore } from '@/stores/auth'; // Assuming your store is in stores/auth.js
+import {useI18n} from "vue-i18n";
+const { locale } = useI18n();
 const authStore = useAuthStore();
 
 // Check if the profile is logged in
@@ -56,6 +63,11 @@ const isLoggedIn = computed(() => !!authStore.token);
 const logout = () => {
   authStore.logout();
 };
+
+const changeLocale = (event) => {
+  locale.value = event.target.value;
+};
+
 </script>
 
 <style scoped>

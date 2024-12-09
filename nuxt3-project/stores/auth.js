@@ -58,14 +58,16 @@ export const useAuthStore = defineStore('auth', {
                 this.errorMessage =
                     error.response?.data?.message || 'Login failed. Please check your credentials.';
                 console.error('Login Error:', error);
+                toast.error(this.errorMessage);
             }
         },
         async logout() {
-            // Clear the token and profile state
+            const nuxtApp = useNuxtApp();
+            await nuxtApp.$axios.post('/logout');
             useCookie('auth_token').value = null;
             this.user = null;
             this.token = null;
-            toast.success('Logged out successfully');
+            // toast.success('Logged out successfully');
             // Optionally navigate to the login page
             navigateTo('/login');
         },

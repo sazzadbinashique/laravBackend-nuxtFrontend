@@ -20,9 +20,9 @@ export const usePostStore = defineStore('post', {
                 const response = await nuxtApp.$axios.get(url);
                 this.posts = response.data.data;
                 this.pagination = {
-                    prev_page_url: response.data.prev_page_url,
-                    next_page_url: response.data.next_page_url,
-                    current_page: response.data.current_page,
+                    prev_page_url: response.data.pagination.prev_page_url,
+                    next_page_url: response.data.pagination.next_page_url,
+                    current_page: response.data.pagination.current_page,
                 };
             } catch (error) {
                 console.error('Error fetching posts:', error);

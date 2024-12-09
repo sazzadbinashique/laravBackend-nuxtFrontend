@@ -5,7 +5,7 @@
     <Breadcrumb :crumbs="breadcrumbs" />
     <!-- Header Section -->
     <!-- Create Category Form -->
-    <div class="bg-cyan-100 p-6 rounded-md mb-4">
+    <div class="bg-cyan-100 p-6 rounded-md mb-4 mt-4">
       <h2 class="text-xl font-medium mb-4">Create Category</h2>
       <form @submit.prevent="createCategory" class="space-y-4">
         <div>
